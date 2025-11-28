@@ -22,7 +22,7 @@ public class ExchangeRateAPIClient {
     }
 
     public TasaDeCambio resultadoDeConversion (String baseCode, String targetCode, double amount) throws IOException, InterruptedException {
-        URI direccion = URI.create("https://v6.exchangerate-api.com/v6/" + CLAVE_API + "/" + baseCode + "/" + targetCode + "/" + amount);
+        URI direccion = URI.create("https://v6.exchangerate-api.com/v6/" + CLAVE_API + "/pair/" + baseCode + "/" + targetCode + "/" + amount);
 
         HttpClient client = HttpClient.newHttpClient();
 
