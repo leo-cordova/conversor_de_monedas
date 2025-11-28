@@ -1,12 +1,16 @@
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class ConversorDeMonedas {
+    static List<TasaDeCambio> registro = new ArrayList<TasaDeCambio>();
+
     public static void main(String[] args) {
         Scanner lectura = new Scanner(System.in);
         ExchangeRateAPIClient clienteAPI = new ExchangeRateAPIClient();
+        IO.println("*** BIENVENIDO AL CONVERSOR DE MONEDAS. ***");
         String menu = """
-                *** BIENVENIDO AL CONVERSOR DE MONEDAS. ***
                 Por favor, seleccione una opción:
                 1. Convertir de Dólares a Pesos argentinos.
                 2. Convertir de Pesos argentinos a Dólares.
@@ -31,12 +35,9 @@ public class ConversorDeMonedas {
                     try {
                         TasaDeCambio resultado = clienteAPI.resultadoDeConversion(base1, target1, cantidad);
                         IO.println("Resultado: " + resultado.conversion_result() + " Pesos argentinos.");
-
-                    } catch (IOException e) {
+                        registro.add(resultado);
+                    } catch (IOException | InterruptedException e) {
                         IO.println("Lo sentimos, ha ocurrido un error.");
-                        System.exit(0);
-                    } catch (InterruptedException e) {
-                        IO.println("Lo sentimos, el proceso a sido interrumpido.");
                         System.exit(0);
                     }
                     break;
@@ -48,11 +49,9 @@ public class ConversorDeMonedas {
                     try {
                         TasaDeCambio resultado = clienteAPI.resultadoDeConversion(base2, target2, cantidad);
                         IO.println("Resultado: " + resultado.conversion_result() + " Dólares.");
-                    } catch (IOException e) {
+                        registro.add(resultado);
+                    } catch (IOException | InterruptedException e) {
                         IO.println("Lo sentimos, ha ocurrido un error.");
-                        System.exit(0);
-                    } catch (InterruptedException e) {
-                        IO.println("Lo sentimos, el proceso a sido interrumpido.");
                         System.exit(0);
                     }
                     break;
@@ -64,11 +63,9 @@ public class ConversorDeMonedas {
                     try {
                         TasaDeCambio resultado = clienteAPI.resultadoDeConversion(base3, target3, cantidad);
                         IO.println("Resultado: " + resultado.conversion_result() + " Pesos mexicanos.");
-                    } catch (IOException e) {
+                        registro.add(resultado);
+                    } catch (IOException |InterruptedException e) {
                         IO.println("Lo sentimos, ha ocurrido un error.");
-                        System.exit(0);
-                    } catch (InterruptedException e) {
-                        IO.println("Lo sentimos, el proceso a sido interrumpido.");
                         System.exit(0);
                     }
                     break;
@@ -80,11 +77,9 @@ public class ConversorDeMonedas {
                     try {
                         TasaDeCambio resultado = clienteAPI.resultadoDeConversion(base4, target4, cantidad);
                         IO.println("Resultado: " + resultado.conversion_result() + " Dólares.");
-                    } catch (IOException e) {
+                        registro.add(resultado);
+                    } catch (IOException | InterruptedException e) {
                         IO.println("Lo sentimos, ha ocurrido un error.");
-                        System.exit(0);
-                    } catch (InterruptedException e) {
-                        IO.println("Lo sentimos, el proceso a sido interrumpido.");
                         System.exit(0);
                     }
                     break;
@@ -96,11 +91,9 @@ public class ConversorDeMonedas {
                     try {
                         TasaDeCambio resultado = clienteAPI.resultadoDeConversion(base5, target5, cantidad);
                         IO.println("Resultado: " + resultado.conversion_result() + " Pesos argentinos.");
-                    } catch (IOException e) {
+                        registro.add(resultado);
+                    } catch (IOException | InterruptedException e) {
                         IO.println("Lo sentimos, ha ocurrido un error.");
-                        System.exit(0);
-                    } catch (InterruptedException e) {
-                        IO.println("Lo sentimos, el proceso a sido interrumpido.");
                         System.exit(0);
                     }
                     break;
@@ -112,16 +105,18 @@ public class ConversorDeMonedas {
                     try {
                         TasaDeCambio resultado = clienteAPI.resultadoDeConversion(base6, target6, cantidad);
                         IO.println("Resultado: " + resultado.conversion_result() + " Real brasileño.");
-                    } catch (IOException e) {
+                        registro.add(resultado);
+                    } catch (IOException | InterruptedException e) {
                         IO.println("Lo sentimos, ha ocurrido un error.");
-                        System.exit(0);
-                    } catch (InterruptedException e) {
-                        IO.println("Lo sentimos, el proceso a sido interrumpido.");
                         System.exit(0);
                     }
                     break;
             }
         }
-
+        HistorialDeConverciones historial = new HistorialDeConverciones();
+        historial.guardarHistorial(registro);
+        IO.println("Su historial de conversiones: ");
+        historial.mostrarHistorial(registro);
+        IO.println("Gracias por usar el conversor de monedas. ¡Hasta luego!");
     }
 }
